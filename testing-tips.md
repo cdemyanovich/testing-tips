@@ -562,7 +562,7 @@ end
 
 ---
 
-![left](https://c2.staticflickr.com/2/1442/24212100174_455e70ce34_b.jpg)
+![left](https://images-na.ssl-images-amazon.com/images/M/MV5BMTYxMzc0NDk1NV5BMl5BanBnXkFtZTgwNTcyMDEyODE@._V1_SY1000_CR0,0,659,1000_AL_.jpg)
 
 ## 9
 
@@ -570,7 +570,20 @@ end
 
 ---
 
-#### TODO: show example
+>There can be only one!
+-- Connor MacLeod, Ramirez, The Kurgan
+
+---
+
+>There can be two or more!
+-- Craig Demyanovich
+
+---
+
+#### In practice...
+
+* not that often
+* may indicate an opportunity for extracting a class/method
 
 ---
 
