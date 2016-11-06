@@ -141,6 +141,8 @@ namespace Foo.Tests {
 
 etc.
 
+^ mental/paper/pending tests
+
 ---
 
 ![left](corinne-ireland-cliff.jpg)
