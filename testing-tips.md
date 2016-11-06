@@ -34,7 +34,7 @@ namespace Foo.Tests {
 
 ## 2
 
-### Know whether you expect pass/fail
+### Predict the future
 
 ---
 
