@@ -582,7 +582,25 @@ end
 
 ---
 
-#### TODO: show example
+```cs
+using System;
+...
+using Xunit;
+
+namespace PersonalAutoPolicyService.Tests.V1.Json {
+    public class VehicleHistoryJsonTest {
+        [Theory]
+        [InlineData(AverageAnnualMileageStrategy.OneA, "1A")]
+        [InlineData(AverageAnnualMileageStrategy.OneB, "1B")]
+        [InlineData(AverageAnnualMileageStrategy.Two, "2")]
+        [InlineData(AverageAnnualMileageStrategy.Default, "default")]
+        [InlineData(null, null)]
+        public void Converts_The_AverageAnnualMileageStrategy(AverageAnnualMileageStrategy? strategy, string jsonValue) {
+            Assert.Equal(jsonValue, strategy.ToJson());
+        }
+    }
+}
+```
 
 ---
 
