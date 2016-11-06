@@ -47,7 +47,7 @@ namespace Foo.Tests {
 ---
 
 > Never trust a test that you haven't seen fail.
--- Craig Demyanovich (maybe...probably not)
+-- Anonymous
 
 ---
 
