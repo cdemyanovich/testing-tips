@@ -1,8 +1,10 @@
 theme: Plain Jane, 2
 
-![](https://c1.staticflickr.com/3/2388/2376598010_9543d6a12b_b.jpg)
+![original](https://upload.wikimedia.org/wikipedia/commons/d/db/Macro_of_sharpened_colored_pencils_arranged_in_a_circle.jpg)
 
-# Testing Tips
+# Testing
+
+# Tips
 
 ---
 
@@ -418,3 +420,4 @@ namespace PersonalAutoPolicyService.Tests.V1.Json {
 
 * ["Haskell Logo"](https://commons.wikimedia.org/wiki/File%3AHaskell-Logo.svg) By Thought up by Darrin Thompson and produced by Jeff Wheeler (Thompson-Wheeler logo on the haskell wiki) [Public domain or Public domain], via Wikimedia Commons
 * ["American Automobile Association Logo"](https://commons.wikimedia.org/wiki/File%3AAmerican-Automobile-Association-Logo.svg) See page for author [Public domain], via Wikimedia Commons
+* ["Macro of sharpened colored pencils arranged in a circle"](https://commons.wikimedia.org/wiki/File%3AMacro_of_sharpened_colored_pencils_arranged_in_a_circle.jpg) By Horia Varlan from Bucharest, Romania [CC BY 2.0 (http://creativecommons.org/licenses/by/2.0)], via Wikimedia Commons
