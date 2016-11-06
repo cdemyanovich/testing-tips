@@ -624,10 +624,21 @@ namespace PersonalAutoPolicyService.Tests.V1.Json {
 
 ---
 
-#### Example (clojure.spec)
+#### Example (clojure.spec)[^1]
 
 ```clojure
+(spec/def ::velocity p/positive-int)
+(spec/def ::x p/positive-int)
+(spec/def ::y p/positive-int)
+(spec/def ::position (spec/keys :req-un [::x ::y]))
+(spec/def ::laser (spec/keys :req-un [::position ::velocity]))
+
+(def initial
+  {:position {:x 98 :y 216}
+   :velocity 0})
 ```
+
+[^1]: Eric Smith (@paytonrules) in #support-hotline: https://8thlight.slack.com/archives/support-hotline/p1478008717002944
 
 ---
 
