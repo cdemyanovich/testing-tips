@@ -30,22 +30,6 @@ namespace Foo.Tests {
 
 ---
 
-```cs
-using System;
-using Xunit;
-
-namespace Foo.Tests {
-    public class DoSomethingTest {
-        [Fact]
-        public void It_Works() {
-            Assert.Equal(1, 2);
-        }
-    }
-}
-```
-
----
-
 ![left](https://upload.wikimedia.org/wikipedia/commons/a/a1/Experts_Expect_the_Unexpected._Nubra.jpg)
 
 ## 2
