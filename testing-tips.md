@@ -616,10 +616,18 @@ namespace PersonalAutoPolicyService.Tests.V1.Json {
 
 ---
 
+1. Automates generation of tests
+1. Covers large sample of inputs
+1. Computes a minimal failing case
+
+---
+
 #### Example libraries
 
 * [QuickCheck](https://hackage.haskell.org/package/QuickCheck)
 * [test.check](https://github.com/clojure/test.check)
+* [elm-check](https://github.com/TheSeamau5/elm-check)
+* [FsCheck](https://fscheck.github.io/FsCheck/)
 * [clojure.spec](http://clojure.org/about/spec)
 
 ---
