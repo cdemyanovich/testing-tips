@@ -117,8 +117,7 @@ namespace Foo.Tests {
 * Vehicle is invalid without year
 * Vehicle is invalid without make
 * Vehicle is invalid without model
-
-etc.
+* etc.
 
 ^ mental/paper/pending tests
 
