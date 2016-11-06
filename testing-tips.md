@@ -261,15 +261,35 @@ assert response.keys.include? "dealer"
 
 ---
 
-![left](https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Mud_and_water_suspension_and_clear_water.JPG/1024px-Mud_and_water_suspension_and_clear_water.JPG)
+![left fit](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/American-Automobile-Association-Logo.svg/800px-American-Automobile-Association-Logo.svg.png)
 
 ## 8
 
-### Order assertions for helpful error messages
+### Obey the "AAA" rule
 
 ---
 
-#### TODO: show example from PAPS
+__A__rrange
+
+__A__ct
+
+__A__ssert
+
+---
+
+```ruby
+should "include dealer" do
+  assert @decoded_response.keys.include? "dealer"
+end
+```
+
+```ruby
+should "include dealer" do
+  dealer = create_dealer(...)
+  response = show_dealer(dealer.id)
+  assert response.keys.include? "dealer"
+end
+```
 
 ---
 
@@ -397,3 +417,4 @@ namespace PersonalAutoPolicyService.Tests.V1.Json {
 # Image Credits (continued)
 
 * ["Haskell Logo"](https://commons.wikimedia.org/wiki/File%3AHaskell-Logo.svg) By Thought up by Darrin Thompson and produced by Jeff Wheeler (Thompson-Wheeler logo on the haskell wiki) [Public domain or Public domain], via Wikimedia Commons
+* ["American Automobile Association Logo"](https://commons.wikimedia.org/wiki/File%3AAmerican-Automobile-Association-Logo.svg) See page for author [Public domain], via Wikimedia Commons
