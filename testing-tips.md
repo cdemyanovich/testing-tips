@@ -51,13 +51,6 @@ namespace Foo.Tests {
 
 ---
 
-> Never say never.
--- Someone more famous than me
-
-^ But why couldn't I find the source?
-
----
-
 ```cs
 using System;
 using Xunit;
