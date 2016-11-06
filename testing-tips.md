@@ -241,314 +241,46 @@ etc.
 
 ---
 
-```ruby
-require 'test_helper'
+237 - 233 = 4
 
-class Api::V1::DealersControllerTest < ActionController::TestCase
-  fixtures :organizations, :account_statuses, :dealer_statuses
+233 - 214 = 19
 
-  context 'POST /authenticate' do
-    setup do
-      @controller.stubs(:authenticate_request => true)
-    end
+214 - 202 = 12
 
-    context "for active dealer" do
-      setup do
-        @org = organizations(:comcast)
-        @dealer = FactoryGirl.create(:active_ready_dealer, :comcast_affiliate_id => '121500')
-        @account = FactoryGirl.create(:dealer_account, :dealer => @dealer, :organization => @org)
-        @dealer.locations << FactoryGirl.build(:location, :account => @account, :dealer => @dealer, :photos => [FactoryGirl.build(:location_photo)])
-        @dealer.save!
-      end
+202 - 8 = 196
 
-      should "authenticate if password is correct" do
-        post_authenticate @account.user_name, @account.password
-        assert_response :success
-      end
-
-      should "return correct json" do
-        post_authenticate @account.user_name, @account.password
-        loc_data = []
-        @dealer.locations.each {|l| loc_data += [{:address => l.contact.address.address_line_1, :affid => l.affid }]}
-        response = JSON.parse(@response.body)
-
-        assert_equal 'correct', response['status']
-        assert_equal @dealer.alias_name, response['name']
-        assert_equal @dealer.cid, response['cid']
-        assert_equal @dealer.oid, response['oid']
-        assert_equal @dealer.comcast_affiliate_id, response['comcast_affiliate_id']
-        assert_equal @dealer.twc_affiliate_id, response['twc_affiliate_id']
-        assert_equal @org.name, response['organization']
-        assert_equal @dealer.id, response['id']
-        assert_equal @dealer.national, response['national']
-        assert_equal @dealer.pci_compliant, response['pci_compliant']
-        assert_equal @dealer.can_check_positive_id, response['can_check_positive_id']
-        assert_equal @dealer.can_sell_twc_intelligent_home_products, response['can_sell_twc_intelligent_home_products']
-        assert_equal @dealer.can_sell_xhs_products, response['can_sell_xhs_products']
-        assert_equal @dealer.cpos_trained, response['cpos_trained']
-        assert_equal loc_data.first[:address], response['locations'].first['address']
-        assert_equal loc_data.first[:affid], response['locations'].first['affid']
-      end
-
-      should "return the dealers' oid with trailing whitespace removed" do
-        @dealer.update_attribute(:oid, "123456 ")
-        post_authenticate @account.user_name, @account.password
-        response = JSON.parse(@response.body)
-        assert_equal response['oid'], "123456"
-      end
-
-      should "not authenticate if password is missing" do
-        post_authenticate @account.user_name, nil
-        assert_response 403
-      end
-
-      should "not authenticate if password is incorrect" do
-        post_authenticate @account.user_name, 'not_correct'
-        assert_response 403
-      end
-
-      should "return response for dealer with location without contact" do
-        @dealer.locations.first.contact = nil
-        @dealer.save
-        post_authenticate @account.user_name, @account.password
-        assert_response :success
-
-        loc_data = []
-        @dealer.locations.each {|l| loc_data += [{:address => nil, :affid => l.affid }]}
-        expected = { :status => :correct,
-                     :name => @dealer.alias_name,
-                     :id => @dealer.id,
-                     :cid => @dealer.cid,
-                     :oid => @dealer.oid,
-                     :comcast_affiliate_id => @dealer.comcast_affiliate_id,
-                     :twc_affiliate_id => @dealer.twc_affiliate_id,
-                     :national => @dealer.national,
-                     :pci_compliant => @dealer.pci_compliant,
-                     :can_check_positive_id => @dealer.can_check_positive_id?,
-                     :can_sell_twc_intelligent_home_products => @dealer.can_sell_twc_intelligent_home_products?,
-                     :can_sell_xhs_products => @dealer.can_sell_xhs_products?,
-                     :cpos_trained => @dealer.cpos_trained?,
-                     :organization => @org.name,
-                     :locations => loc_data,
-        }.to_json
-        assert_equal expected, @response.body
-      end
-
-      should "return response for dealers with 1 location without contact" do
-        account = FactoryGirl.build(:dealer_account, :organization => @org)
-        location = FactoryGirl.build(:location, :account => account, :dealer => @dealer, :contact => nil)
-        location.save
-        post_authenticate @account.user_name, @account.password
-        assert_response :success
-
-        loc_data = []
-        @dealer.locations.each {|l| loc_data += [{:address => (l.contact.present? ? l.contact.address.address_line_1 : nil), :affid => l.affid }]}
-        expected = { :status => :correct,
-                     :name => @dealer.alias_name,
-                     :id => @dealer.id,
-                     :cid => @dealer.cid,
-                     :oid => @dealer.oid,
-                     :comcast_affiliate_id => @dealer.comcast_affiliate_id,
-                     :twc_affiliate_id => @dealer.twc_affiliate_id,
-                     :national => @dealer.national,
-                     :pci_compliant => @dealer.pci_compliant,
-                     :can_check_positive_id => @dealer.can_check_positive_id?,
-                     :can_sell_twc_intelligent_home_products => @dealer.can_sell_twc_intelligent_home_products?,
-                     :can_sell_xhs_products => @dealer.can_sell_xhs_products?,
-                     :cpos_trained => @dealer.cpos_trained?,
-                     :organization => @org.name,
-                     :locations => loc_data,
-        }.to_json
-        assert_equal expected, @response.body
-      end
-
-    end
-
-    context "when dealer is not found by username" do
-      should "not render a 500 and not authenticate" do
-        post_authenticate 'notARealName', 'testpass'
-        assert_response 403
-      end
-    end
-
-    context "for inactive dealer" do
-      setup do
-        org = organizations(:comcast)
-        @dealer = FactoryGirl.build(:inactive_dealer)
-        @account = FactoryGirl.build(:dealer_account, :dealer => @dealer, :account_status_id => AccountStatus.inactive.id, :organization => org)
-        @dealer.locations << FactoryGirl.build(:location, :account => @account, :dealer => @dealer)
-        @dealer.save
-      end
-
-      should "not authenticate even if password is correct" do
-        post_authenticate @account.user_name, @account.password
-        assert_response 403
-      end
-    end
-
-    context "linked accounts" do
-      setup do
-        @dealer = FactoryGirl.build(:active_dealer)
-        @dealer.pci_compliance_declarations.build :transmitted_at => DateTime.current, :document_key => 'abc123', :signed_at => DateTime.current
-        account = FactoryGirl.build(:dealer_account, :dealer => @dealer, :organization => organizations(:comcast))
-        @dealer.locations << FactoryGirl.build(:location, :account => account, :dealer => @dealer, :photos => [FactoryGirl.build(:location_photo)])
-        @dealer.save!
-        # Ensure role_type_id is set first, since Account depends on it to
-        # determine what to validate
-        linked_account = @dealer.linked_accounts.build
-        linked_account.role_type_id = AccountRole.linked_account.id
-        linked_account.first_name = 'Fede'
-        linked_account.last_name = 'Zuppa'
-        linked_account.user_name = 'fede'
-        linked_account.password = '123456'
-        linked_account.email = 'fzuppa@novalid.com'
-        linked_account.account_status_id = AccountStatus.active.id
-        linked_account.save!
-      end
-
-      should "find the associated dealer" do
-        post_authenticate 'fede', '123456'
-        body = JSON.parse(@response.body)
-        assert_equal @dealer.alias_name, body['name']
-        assert_equal @dealer.oid, body['oid']
-      end
-
-      should "not be able to authenticate with not existing user" do
-        post_authenticate 'fede132', '123456'
-        assert_response 403
-      end
-
-      should "not be able to authenticate with wrong password" do
-        post_authenticate 'fede', '876543'
-        assert_response 403
-      end
-    end
-  end
-
-  context 'GET /show with invalid id' do
-    setup do
-      @controller.stubs(:authenticate_request => true)
-    end
-
-    should 'respond with 404 (not found) for unknown id' do
-      get :show, :id => '0', :format => 'json'
-      assert_response :not_found
-    end
-  end
-
-  context 'GET /show with valid id' do
-    fixtures :organizations
-    setup do
-      organization = organizations(:comcast)
-      @controller.stubs(:authenticate_request => true)
-      @controller.stubs(:current_organization => organization)
-
-      @dealer = FactoryGirl.create(:active_ready_dealer, :twc_sales_id => 'foo')
-      @account = FactoryGirl.create(:dealer_account, :dealer => @dealer, :organization => organization)
-      @location = FactoryGirl.build(:location, :dealer => @dealer, :account => @accoun, :photos => [FactoryGirl.build(:location_photo)])
-      @dealer.locations << @location
-      @virtual_location = FactoryGirl.build(:virtual_location, :dealer => @dealer, :account => @account)
-      @dealer.locations << @virtual_location
-      @dealer.save!
-      Dealer.any_instance.stubs(:division).returns('test')
-    end
-
-    context "JSON request" do
-      setup do
-        get :show, :id => @dealer.id, :format => 'json'
-      end
-
-      should respond_with :success
-
-      should "be json response" do
-        assert_equal "application/json", @response.content_type
-      end
-
-      should "have location info" do
-        assert_match @location.affid, @response.body
-      end
-
-      should "not have virtual location info" do
-        assert_no_match Regexp.new(@virtual_location.affid), @response.body
-      end
-
-      context "hierarchy" do
-        setup do
-          @decoded_response = JSON::parse(@response.body)
-        end
-
-        should "include dealer" do
-          assert @decoded_response.keys.include? "dealer"
-        end
-
-        should "include locations" do
-          assert @decoded_response["dealer"].keys.include? "locations"
-        end
-
-        should "have contacts for locations" do
-          assert @decoded_response["dealer"]["locations"].first.keys.include? "contact"
-        end
-
-        should "have an address for contacts for locations" do
-          assert @decoded_response["dealer"]["locations"].first["contact"].keys.include? "address"
-        end
-
-        should "include representative" do
-          assert @decoded_response["dealer"].keys.include? "representative"
-        end
-
-        should "include contacts" do
-          assert @decoded_response["dealer"].keys.include? "contacts"
-        end
-
-        should "include status" do
-          assert @decoded_response["dealer"].keys.include? "status"
-        end
-
-        should 'include flag indicating whether dealer is national' do
-          assert_equal false, @decoded_response['dealer']['national']
-        end
-
-        should 'include flag indicating whether dealer is PCI compliant' do
-          assert_equal true, @decoded_response['dealer']['pci_compliant']
-        end
-
-        should 'include flag indicating whether dealer can check Positive ID' do
-          assert_equal false, @decoded_response['dealer']['can_check_positive_id']
-        end
-
-        should 'include flag indicating whether dealer can sell XHS products' do
-          assert_equal false, @decoded_response['dealer']['can_sell_xhs_products']
-        end
-
-        should 'include flag indicating whether dealer is CPos trained' do
-          assert_equal false, @decoded_response['dealer']['cpos_trained']
-        end
-
-        should 'include twc_sales_id' do
-          assert_equal 'foo', @decoded_response['dealer']['twc_sales_id']
-        end
-
-        # NOTE: would be nice to ensure that sensitive attributes are
-        # globally excluded.
-        ['password_digest'].each do |attr|
-          should "exclude #{attr}" do
-            assert_false @decoded_response['dealer']['representative'].has_key? attr
-          end
-        end
-      end
-    end
-  end
-
-  def post_authenticate(user_name, password)
-    post :authenticate, :format => 'json', :user_name => user_name, :password => password
-  end
-end
-```
+__4 + 19 + 12 + 196 = 231__
 
 ---
 
-#### TODO: Instead, use helper functions...
+![fit](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Adhesive_bandage_drawing_nevit.svg/1024px-Adhesive_bandage_drawing_nevit.svg.png)
+
+* Bookmarks
+* Code folding
+* Comments
+* etc.
+
+---
+
+#### Instead...
+
+Refactor: Extract method
+
+```ruby
+def show_dealer(id)
+  get :show, :id => id, :format => 'json'
+  JSON::parse(@response.body)
+end
+```
+
+```ruby
+response = show_dealer(@dealer.id)
+assert response.keys.include? "dealer"
+```
+
+^ design opportunity (for tests and production code)
+^ maybe compose these small methods, e.g., other response formats
+^ extracted methods/classes can move to domain
 
 ---
 
