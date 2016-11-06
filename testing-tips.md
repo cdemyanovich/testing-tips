@@ -38,7 +38,7 @@ namespace Foo.Tests {
 
 ---
 
-![left](https://s-media-cache-ak0.pinimg.com/736x/fe/cb/60/fecb607611f43137318d2dd18231b5e7.jpg)
+![left fit](https://s-media-cache-ak0.pinimg.com/736x/fe/cb/60/fecb607611f43137318d2dd18231b5e7.jpg)
 
 ## 3
 
@@ -100,7 +100,7 @@ namespace Foo.Tests {
 
 ---
 
-![left](http://animatedheaven.weebly.com/uploads/5/0/1/3/50138243/checklist.png)
+![left fit](http://animatedheaven.weebly.com/uploads/5/0/1/3/50138243/checklist.png)
 
 ## 5
 
@@ -141,7 +141,7 @@ etc.
 
 ---
 
-![left](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Russian-Matroshka_no_bg.jpg/600px-Russian-Matroshka_no_bg.jpg)
+![left fit](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Russian-Matroshka_no_bg.jpg/600px-Russian-Matroshka_no_bg.jpg)
 
 ## 7
 
@@ -352,7 +352,7 @@ namespace PersonalAutoPolicyService.Tests.V1.Json {
 
 ---
 
-![left](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Haskell-Logo.svg/800px-Haskell-Logo.svg.png)
+![left fit](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Haskell-Logo.svg/800px-Haskell-Logo.svg.png)
 
 ## 11
 
