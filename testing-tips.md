@@ -245,20 +245,22 @@ __4 + 19 + 12 + 196 = 231__
 Refactor: Extract method
 
 ```ruby
+should "include dealer" do
+  response = show_dealer(@dealer.id)
+  assert response.keys.include? "dealer"
+end
+```
+
+```ruby
 def show_dealer(id)
   get :show, :id => id, :format => 'json'
   JSON::parse(@response.body)
 end
 ```
 
-```ruby
-response = show_dealer(@dealer.id)
-assert response.keys.include? "dealer"
-```
-
 ^ design opportunity (for tests and production code)
-^ maybe compose these small methods, e.g., other response formats
-^ extracted methods/classes can move to domain
+maybe compose these small methods, e.g., other response formats
+extracted methods/classes can move to domain
 
 ---
 
