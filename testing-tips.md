@@ -8,9 +8,17 @@ theme: Plain Jane, 2
 
 ---
 
-![left](http://theprepperproject.com/wp-content/uploads/2013/12/BrokenHammer.jpg)
+![left](https://upload.wikimedia.org/wikipedia/commons/a/a1/Experts_Expect_the_Unexpected._Nubra.jpg)
 
 ## 1
+
+### Predict the future
+
+---
+
+![left](http://theprepperproject.com/wp-content/uploads/2013/12/BrokenHammer.jpg)
+
+## 2
 
 ### Ensure your tools work
 
@@ -29,14 +37,6 @@ namespace Foo.Tests {
     }
 }
 ```
-
----
-
-![left](https://upload.wikimedia.org/wikipedia/commons/a/a1/Experts_Expect_the_Unexpected._Nubra.jpg)
-
-## 2
-
-### Predict the future
 
 ---
 
